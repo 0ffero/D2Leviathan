@@ -1,0 +1,117 @@
+<html>
+<head>
+    <script type="text/javascript" src="/js/jquery331.js"></script>
+
+    <style type="text/css">
+        * { padding: 0px; margin: 0px; line-height: 130%; font-family: monospace; overflow: hidden; }
+        body, table, td  { font-size: 20px; background-color: black; color: white; }
+        #container { width: 100%; }
+            #mainImage { width: 48%; height: 100%; float: left; background-image: url('./images/gauntlet.png'); background-repeat: no-repeat; background-size: contain; }
+            #dataContainer { text-align: left; width: 48%; float: left; overflow-y: auto; height: 100%; }
+                .runner, .puncher, .plate { background-color: #2b2929; }
+                .runner { color: #fbce4b; }
+                .puncher { color: #a506d9; }
+                .plate { color: #078d07; }
+                #heading { font-weight: bold; color: gold; font-size: 32px; }
+                .heading { font-size: 32px; color: #03d8e2; }
+                .subheading { font-size: 28px; color: #03d8e2; }
+                .sidenote { font-size: 14px; color: #ababab; }
+                .glow { text-shadow: 1px 1px 12px white; }
+                .red { color: #ff6464; }
+                .blue { color: #8585ff; }
+                .purple { color: #c958ff; }
+                .green { color: #00c500; }
+                #previous { float: left; }
+                #next { float: right; }
+                ul, ol { padding: 10px 30px; }
+                li { margin-bottom: 10px; }
+                td { text-align: left; }
+                    .button { display: block; width: 200px; border: 1px solid white; padding: 6px; margin-top: 5px; border-radius: 5px; cursor: pointer; text-align: center; margin: 0px auto; }
+                    .button:hover { background-color: aliceblue; color: blue; }
+        
+        #vars { display: none; }
+        #runnerView { display: none; position:absolute; left: 10px; top: 10px; width: 587px; height: 454px; background-image: url('./images/runnerView.png'); background-size: contain; }
+        .runnerView { color: yellow; }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="mainImage"></div>
+        <div id="dataContainer">
+            <table>
+            <tr><td colspan="2" id="heading">Leviathan - Gauntlet - Overview</td></tr>
+            <tr><td colspan="2" id="information"></td></tr>
+            <tr id="buttonContainer"><td id="previous" class="button">Previous</td><td id="next" class="button">Next</td>
+            </table>
+        </div>
+    </div>
+    <div id="vars" data-currentpage="0"></div>
+    <div id="runnerView"></div>
+</body>
+
+<script type="text/javascript">
+        infoPages = { 
+            data: [ 
+                '<div class="heading">Introduction</div>Before starting the encounter. Split your fireteam into two teams of 3 players.<br>Team 1 is called "Dogs", Team 2 is called "Cups"<br/>Assign each guardian in your team a job from the following:<ul><li>1) "Plate"</li><li>2) "Puncher"</li><li>3) "Runner"</li></ul>Each team have the same mechanics but each guardian does something different.<br/><br/><span class="subheading">Quick overview of mechanics:</span><br/>When the "Plate" guardian stands on the their current plate, the "runner" will see 3 rows of circles on the gate in front of them (<span class="runnerView">hover</span>), one of which will be <span class="red">red</span>. The "runner" then calls out the gate icon name (explained in detail lower down...) followed by "Top", "Middle" or "Bottom" based on where that <span class="red">red</span> circle is. The "puncher" and "plate" fire at 2 of the 3 targets in front of them. They ignore the target the "runner" called. e.g "Runner" calls "top"; "Puncher" and "Plate" shoot the lower two targets. When done right the targets will <span class="glow">glow <span class="green">green</span></span>. If you get it wrong it will <span class="glow">glow <span class="red">red</span></span>.<br/>After entering the correct code the "runner" will be able to pass through the gate. If the wrong targets are shot they will turn <span class="red">red</span>. The "runner", if fast enough, can fail one gate. If the "puncher" and "plate" mess up the next gate however, the "runner" will explode as they\'re on a timer which is only reset when passing through gates that were successfully shot and turned green)<br/>At this point "plate" will move clockwise to the next plate (waiting for the "runner"s next call). Meanwhile "puncher" will punch a psion that appears inside a bubble in front of the gate that the "runner" has just passed through (between the plate and wall/gate). "Puncher" then follows "plate" to the next gate.<br/>Repeat this until the "runner" gets back to the start gate. They will then exit the gauntlet and run to the middle of the room and place the orb they carried through the gauntlet.',
+                '<div class="heading">Part 1 - Transferring the orbs from the gauntlet to recepticles</div>OK, so lets go through this in more detail...<br/>Team Dogs start at the dogs side (hence your name). Team Cup starts at cup side.<ol><li>To start the encounter you have to stand on all 4 plates. This can be done by anyone, however its a good idea to send your "puncher" to the plate to the right. When the gauntlet encounter begins, cabal will flood out of the doors (shown on the map as 3 <span class="blue">blue</span> arrows).</li><li>Once all the normal cabal are dead, a gong will sound and a yellow bar will appear. After "puncher" kills their yellow bar they will return to their proper start position (ie on the floor, in front of the player on plate).<br/>After all 4 yellow bars are dead, the guardian on plate will jump on to their plate (doing this shows the "runner" which row to call out). An orb will appear against the wall in front of dog and cup plates. The "runner"s will call "ready" when they\'re standing at the orb. After the 2nd "runner" calls "ready" both of them will pick up the orb and be teleported into the gauntlet.<li>Now the "runner" will see a 3x3 grid of circles on the gate in front of them. One of the 9 circles will be highlighted in <span class="red">red</span>, the rest are <span class="blue">blue</span></li><li>This is when the "runner" calls where the <span class="red">red</span> circle is (dogs should always call first unless something goes wrong). Before that they will call the symbol they see at the top of the gate. For dogs the first call will be dogs followed by "top", "middle" or "bottom".</li><li>With this information the "puncher" and "plate" will shoot at the arrows that were NOT called.<br/>"Plate" always shoots the highest target that wasnt called (ie if "top" is called by the "runner"; "plate" shoots the middle target. If "bottom" or "middle" is called, "plate" shoots at the top target).<br/>"Puncher" always shoots the lowest target (ie if "top" or "middle" is called, "puncher" will shoot the bottom target. if "bottom" is called, "puncher" will shoot the middle target. Both targets need to be shot at the same time!<br/><span class="sidenote">A little side note here: If "top" or "bottom" is called, the other two targets can be shot by a single person, by quickly firing between the other two targets. I use a pulse rifle for this but something like a fast firing autorifle or sub machine gun will do the same job.</span></li><li>"Plate", after shooting the target, will immediately rotate clockwise (<span class="green">green</span> arrow) and stand on the next plate, waiting for the "runner" to do pass through their gate and do their next call.</li><li>"Puncher" will wait until the "runner" has passed through the gate. When they do a psion will appear in a bubble. Enter the bubble, punch the psion and rotate clockwise. (<span class="purple">purple</span> arrow)</li></ol>Repeat this until the "runner" gets back to the starting gate. When they pass through the gate they will be teleported back to the main area. They then need to run directly to the middle (elevator) room where you all first entered and place the orb in the recepticles in the center.</li></ol><br/>Now all you have to do is the same thing 2 more times.<br/>After your "runner" has run the gauntlet 3 times its time for everyone to do it. This is the final part of the gauntlet (click next)',
+                '<div class="heading">Part 2 - The Final Test</div>After the "runner"s have completed their third time around the gauntlet, everyone goes to the center section. A few seconds after the 3rd set of orbs are taken to the center room and placed, 6 orbs will spawn. Every player should pick one up. When you do, you\'ll be teleported into the gauntlet.<br/>After eveyone has taken their orb the forcefield around the gauntlet will be dropped.<br/>This is where your team names come into the mix. At each gate there will be 4 orbs in 4 of the openings on the gate. Team dogs always goes first. This means the first set of orbs are theirs. Each person on team dogs will call out which orb their going for. We use standard call-outs for the orb you want. For example: top left, middle middle, right middle, bottom right etc.<br/>The next gate belongs to team cups. Again, calling out which orb they want. Repeat this for the next 2 gates.<br/>After going through all 4 gates youll be teleported back into the main room. Make your way to the center again and slam that orb home.<br/><br/>To succeed, at least 4 players have to make it all the way through.',
+                '<div class="heading">Part 3</div>Requirements for hard difficulty.'
+            ]
+        }
+
+        // colour the guardian jobs
+        for (i=0; i<infoPages.data.length; i++) {
+            infoPages.data[i] = infoPages.data[i].replace(/"puncher"/ig, '<span class="puncher">Puncher</span>');
+            infoPages.data[i] = infoPages.data[i].replace(/"plate"/ig, '<span class="plate">Plate</span>');
+            infoPages.data[i] = infoPages.data[i].replace(/"runner"/ig, '<span class="runner">Runner</span>');
+        }
+
+        $('.button').click( function() {
+            thisID = $(this).prop('id');
+            currentPage = parseInt($('#vars').data('currentpage'));
+            
+            if (thisID=='previous') {
+                buttonPrevious(currentPage);
+            } else {
+                buttonNext(currentPage);
+            }
+        })
+
+        $('#information').on( 'mouseenter', '.runnerView', function() {
+            $('#runnerView').css('display', 'block');
+        })
+
+        $('#information').on( 'mouseleave', '.runnerView', function() {
+            $('#runnerView').css('display', 'none');
+        });
+
+        function buttonPrevious(currentPage) {
+            //console.log('Previous Clicked - Current Page: ' + currentPage);
+            if (currentPage>0) {
+                currentPage--; $('#vars').data('currentpage', currentPage);
+                newInfo = infoPages.data[currentPage]
+                $('#information').html(newInfo);
+            }
+        }
+
+        function buttonNext(currentPage) {
+            //console.log('Next Clicked - Current Page: ' + currentPage);
+            if (currentPage<infoPages.data.length-1) {
+                currentPage++; $('#vars').data('currentpage', currentPage);
+                newInfo = infoPages.data[currentPage]
+                $('#information').html(newInfo);
+            }
+        }
+
+        // move runner view
+        width_mi  = $('#mainImage').width();  cX = width_mi/2;  offsetX = $('#runnerView').width()/2;
+        height_mi = $('#mainImage').height(); cY = height_mi/2; offsetY = $('#runnerView').height()/2;
+        rv_left = cX - offsetX; rv_top = cY - offsetY;
+        //console.log('cX: ' + cX + ', cY: ' + cY + ', offsetX: ' + offsetX + ', offsetY: ' + offsetY + ' left: ' + rv_left + ' top: ' + rv_top);
+        $('#runnerView').css({'left': rv_left, "top": rv_top });
+
+        $('#information').html(infoPages.data[0]);
+</script>
+
+</html>
