@@ -1,0 +1,100 @@
+<html>
+<head>
+    <title>Leviathan Guide - Royal Pools</title>
+    <script type="text/javascript" src="./js/jquery331.js"></script>
+
+    <style type="text/css">
+        * { padding: 0px; margin: 0px; line-height: 130%; font-family: monospace; overflow: hidden; }
+        body, table, td  { font-size: 20px; background-color: black; color: white; }
+        #container { width: 100%; }
+            #mainImage { width: 48%; height: 100%; float: left; background-image: url('./images/baths.png'); background-repeat: no-repeat; background-size: contain; }
+            #dataContainer { text-align: left; width: 48%; float: left; overflow-y: auto; height: 100%; }
+                #heading { font-weight: bold; color: gold; font-size: 32px; }
+                .heading { font-size: 32px; color: #03d8e2; }
+                .subheading { font-size: 28px; color: #03d8e2; }
+                .sidenote { font-size: 14px; color: #ababab; }
+                .glow { text-shadow: 1px 1px 12px white; }
+                .red { color: #ff6464; }
+                .blue { color: #8585ff; }
+                .purple { color: #c958ff; }
+                .green { color: #00c500; }
+                #previous { float: left; }
+                #next { float: right; }
+                ul, ol { padding: 10px 30px; }
+                li { margin-bottom: 10px; }
+                td { text-align: left; }
+                    .button { display: block; width: 200px; border: 1px solid white; padding: 6px; margin-top: 5px; border-radius: 5px; cursor: pointer; text-align: center; margin: 0px auto; }
+                    .button:hover { background-color: aliceblue; color: blue; }
+        
+        #vars { display: none; }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="mainImage"></div>
+        <div id="dataContainer">
+            <table>
+            <tr><td colspan="2" id="heading">Leviathan - Royal Pools (Baths) - Overview</td></tr>
+            <tr><td colspan="2" id="information"></td></tr>
+            <tr id="buttonContainer"><td id="previous" class="button">Previous</td><td id="next" class="button">Next</td>
+            </table>
+        </div>
+    </div>
+    <div id="vars" data-currentpage="0"></div>
+    <div id="runnerView"></div>
+</body>
+
+<script type="text/javascript">
+        infoPages = { 
+            data: [ 
+                '<div class="heading">Introduction</div>',
+                '<div class="heading">Part 1</div>',
+                '<div class="heading">Part 2</div>',
+                '<div class="heading">Part 3</div>Requirements for hard difficulty.'
+            ]
+        }
+
+
+        $('.button').click( function() {
+            thisID = $(this).prop('id');
+            currentPage = parseInt($('#vars').data('currentpage'));
+            
+            if (thisID=='previous') {
+                buttonPrevious(currentPage);
+            } else {
+                buttonNext(currentPage);
+            }
+        })
+
+
+        function buttonPrevious(currentPage) {
+            //console.log('Previous Clicked - Current Page: ' + currentPage);
+            if (currentPage>0) {
+                currentPage--; $('#vars').data('currentpage', currentPage);
+                newInfo = infoPages.data[currentPage]
+                $('#information').html(newInfo);
+            }
+        }
+
+        function buttonNext(currentPage) {
+            //console.log('Next Clicked - Current Page: ' + currentPage);
+            if (currentPage<infoPages.data.length-1) {
+                currentPage++; $('#vars').data('currentpage', currentPage);
+                newInfo = infoPages.data[currentPage]
+                $('#information').html(newInfo);
+            }
+        }
+
+        
+        /* //CODE TO CENTER OTHER IMAGES
+        width_mi  = $('#mainImage').width();  cX = width_mi/2;  offsetX = $('#runnerView').width()/2;
+        height_mi = $('#mainImage').height(); cY = height_mi/2; offsetY = $('#runnerView').height()/2;
+        rv_left = cX - offsetX; rv_top = cY - offsetY;
+        console.log('cX: ' + cX + ', cY: ' + cY + ', offsetX: ' + offsetX + ', offsetY: ' + offsetY + ' left: ' + rv_left + ' top: ' + rv_top);
+        $('#runnerView').css({'left': rv_left, "top": rv_top }); */
+
+        $('#information').html(infoPages.data[0]);
+</script>
+
+</html>
